@@ -1,117 +1,144 @@
-# Python Math Utilities
+# Job Tracker - Full Stack Application
 
-A small collection of Python scripts demonstrating basic math operations.
+A full-stack Job Tracker application built with React, Django REST Framework, and SQLite.
+
+The application allows users to manage their job applications, track application status, and search for real-world job listings using the Adzuna Jobs API.
 
 ## Overview
 
-This repository contains simple utility scripts for addition and factorial calculation. It is designed for learning Python functions, function documentation, and command-line input handling.
+This project was built to practice and demonstrate practical full-stack development concepts, especially:
+
+- React frontend development
+- Django backend development
+- REST API development
+- Frontend-to-backend API integration
+- User authentication
+- CRUD operations
+- Database management
+- External API integration
+- Git and GitHub workflow
 
 ## Features
 
-- `add.py` defines a reusable `add(a, b)` function
-- `fact.py` implements a recursive factorial calculator with input validation
-- `tempCodeRunnerFile.py` implements an iterative factorial calculator with input prompts
+### User Authentication
 
-## Prerequisites
+- User registration
+- User login
+- Session-based authentication
+- Protected job APIs
 
-- Python 3.7 or newer
+### Job Application Tracking
 
-Verify Python is installed:
+Users can:
 
-```bash
-python --version
-```
+- Add job applications
+- View their saved jobs
+- Update job application details
+- Delete job applications
+- Track application status
+- Store application dates
+- Store job URLs
 
-## Installation
+### Job Status Tracking
 
-No dependencies are required. Clone or copy the repository into a local folder and run the scripts with Python.
+The application supports job statuses such as:
 
-```bash
-git clone <repository-url>
-cd Copilot
-```
+- Applied
+- Interview
+- Selected
+- Rejected
 
-## Usage
+The dashboard also provides a summary of job application statuses.
 
-### `add.py`
+### External Job Search
 
-`add.py` defines a reusable function but does not include a built-in CLI prompt. Use it by importing the function into another script.
+The application integrates with the Adzuna Jobs API to search for real job listings.
 
-Example:
+Users can:
 
-```python
-from add import add
+- Search for jobs using keywords
+- View job titles
+- View companies
+- View locations
+- View job descriptions
+- Open the original job listing
+- Save an external job to their personal Job Tracker
 
-result = add(2, 3)
-print(result)  # 5
-```
+## Application Screenshots
 
-Test directly from the command line:
+### Login
 
-```bash
-python -c "from add import add; print(add(2, 3))"
-```
+![Login Page](screenshots/login.png)
 
-### `fact.py`
+### Dashboard
 
-`fact.py` reads a number from standard input and prints its factorial using recursion.
+![Dashboard - Add Job](screenshots/dashboard-1.png)
 
-Run:
+![Dashboard - Status Summary](screenshots/dashboard-2.png)
 
-```bash
-python fact.py
-```
+### My Jobs
 
-Enter a number when prompted, for example:
+![My Jobs](screenshots/my-jobs.png)
 
-```
-5
-120
-```
+### External Job Search
 
-### `tempCodeRunnerFile.py`
+![External Job Search](screenshots/external-jobs.png)
 
-`tempCodeRunnerFile.py` also reads input from the user and computes the factorial using an iterative algorithm.
+## Technology Stack
 
-Run:
+### Frontend
 
-```bash
-python tempCodeRunnerFile.py
-```
+- React
+- JavaScript
+- HTML
+- CSS
+- Vite
 
-Example interaction:
+### Backend
 
-```
-Enter a number: 4
-Factorial of 4 is 24
-```
+- Python
+- Django
+- Django REST Framework
 
-## File Summary
+### Database
 
-- `add.py`
-  - Provides the `add(a, b)` function
-  - Returns the sum of two values
-  - Includes a docstring describing usage
+- SQLite
 
-- `fact.py`
-  - Provides a recursive `factorial(n: int) -> int` function
-  - Handles negative values with a `ValueError`
-  - Includes CLI input handling for runtime execution
+### APIs
 
-- `tempCodeRunnerFile.py`
-  - Provides an iterative `factorial(n)` function
-  - Handles negative values with a `ValueError`
-  - Includes prompt-driven CLI input handling
+- Django REST APIs
+- Adzuna Jobs API
 
-## Extending the Project
+### Tools
 
-This repository can be expanded with:
+- Git
+- GitHub
+- Visual Studio Code
 
-- unit tests using `unittest` or `pytest`
-- a command-line interface using `argparse`
-- additional math utilities, such as combinations, permutations, or prime checks
-- better packaging and module structure for reusable imports
+## Project Structure
 
-## License
-
-Add a license if you plan to publish or share this project. Common choices include MIT, Apache 2.0, or BSD 3-Clause.
+```text
+Copilot/
+│
+├── job-tracker/
+│   ├── accounts/
+│   ├── jobs/
+│   ├── config/
+│   ├── manage.py
+│   ├── requirements.txt
+│   └── .env
+│
+├── job-tracker-frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+└── screenshots/
+    ├── login.png
+    ├── dashboard-1.png
+    ├── dashboard-2.png
+    ├── my-jobs.png
+    └── external-jobs.png
