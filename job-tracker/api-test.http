@@ -1,0 +1,58 @@
+POST http://127.0.0.1:8000/register/
+Content-Type: application/json
+
+{
+    "username": "manisha",
+    "email": "manisha@example.com",
+    "password": "Test@12345"
+}
+
+### Login
+POST http://127.0.0.1:8000/login/
+Content-Type: application/json
+
+{
+    "username": "manisha",
+    "password": "Test@12345"
+}
+
+### Create Job
+
+POST http://127.0.0.1:8000/jobs/
+Content-Type: application/json
+
+{
+    "company": "TCS",
+    "job_title": "Python Developer",
+    "location": "Hyderabad",
+    "job_url": "https://www.tcs.com/",
+    "status": "Applied",
+    "applied_date": "2026-08-17"
+}
+
+
+### Get All Jobs
+
+GET http://127.0.0.1:8000/jobs/
+
+
+### Update Job
+
+PUT http://127.0.0.1:8000/jobs/1/
+Content-Type: application/json
+
+{
+    "company": "TCS",
+    "job_title": "Python Developer",
+    "location": "Hyderabad",
+    "job_url": "https://www.tcs.com/",
+    "status": "Interview",
+    "applied_date": "2026-08-17"
+}
+
+### Delete Job
+
+DELETE http://127.0.0.1:8000/jobs/1/
+
+### Get All Jobs
+GET http://127.0.0.1:8000/jobs/
