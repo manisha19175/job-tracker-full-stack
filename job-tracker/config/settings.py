@@ -186,9 +186,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 # Session cookie settings
+# Required because React and Django are running on different sites.
 
-SESSION_COOKIE_SAMESITE = "Lax"
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
 
 
 # Adzuna API credentials
