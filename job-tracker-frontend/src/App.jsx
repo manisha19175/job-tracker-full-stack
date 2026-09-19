@@ -11,6 +11,7 @@ function App() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const [company, setCompany] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -65,6 +66,11 @@ function App() {
 
     event.preventDefault();
 
+    if (loginLoading) {
+      return;
+    }
+
+    setLoginLoading(true);
     setError("");
     setMessage("");
 
@@ -102,11 +108,15 @@ function App() {
 
       setMessage("Login successful");
 
-      fetchJobs();
+      await fetchJobs();
 
     } catch (error) {
 
       setError(error.message);
+
+    } finally {
+
+      setLoginLoading(false);
 
     }
 
@@ -324,9 +334,8 @@ function App() {
 
   useEffect(() => {
 
-    if (isLoggedIn) {
-      fetchJobs();
-    }
+    // Login now fetches jobs after authentication,
+    // so we don't fetch them a second time here.
 
   }, [isLoggedIn]);
 
@@ -428,8 +437,11 @@ function App() {
             />
 
 
-            <button type="submit">
-              Login
+            <button
+              type="submit"
+              disabled={loginLoading}
+            >
+              {loginLoading ? "Logging in..." : "Login"}
             </button>
 
           </form>
