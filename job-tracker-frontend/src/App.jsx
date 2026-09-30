@@ -186,6 +186,52 @@ function App() {
   };
 
 
+  const handleUpdateStatus = async (id, newStatus) => {
+
+    try {
+
+      const response = await fetch(
+        `${API_URL}/jobs/${id}/`,
+        {
+          method: "PATCH",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          credentials: "include",
+
+          body: JSON.stringify({
+            status: newStatus,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.detail ||
+          data.message ||
+          "Unable to update job status"
+        );
+
+      }
+
+      setMessage("Job status updated successfully");
+
+      fetchJobs();
+
+    } catch (error) {
+
+      setError(error.message);
+
+    }
+
+  };
+
+
   const handleDeleteJob = async (id) => {
 
     try {
@@ -283,7 +329,7 @@ function App() {
         "",
 
       status:
-        "Applied",
+        "Saved",
 
       applied_date:
         today,
@@ -364,6 +410,12 @@ function App() {
     return matchesSearch && matchesStatus;
 
   });
+
+
+  const savedCount =
+    jobs.filter(
+      (job) => job.status === "Saved"
+    ).length;
 
 
   const appliedCount =
@@ -570,6 +622,10 @@ function App() {
               }
             >
 
+              <option value="Saved">
+                Saved
+              </option>
+
               <option value="Applied">
                 Applied
               </option>
@@ -611,26 +667,57 @@ function App() {
         <section className="status-summary">
 
           <div className="status-card">
+
+            <span>Saved</span>
+
+            <strong>
+              {savedCount}
+            </strong>
+
+          </div>
+
+
+          <div className="status-card">
+
             <span>Applied</span>
-            <strong>{appliedCount}</strong>
+
+            <strong>
+              {appliedCount}
+            </strong>
+
           </div>
 
 
           <div className="status-card">
+
             <span>Interview</span>
-            <strong>{interviewCount}</strong>
+
+            <strong>
+              {interviewCount}
+            </strong>
+
           </div>
 
 
           <div className="status-card">
+
             <span>Selected</span>
-            <strong>{selectedCount}</strong>
+
+            <strong>
+              {selectedCount}
+            </strong>
+
           </div>
 
 
           <div className="status-card">
+
             <span>Rejected</span>
-            <strong>{rejectedCount}</strong>
+
+            <strong>
+              {rejectedCount}
+            </strong>
+
           </div>
 
         </section>
@@ -666,6 +753,10 @@ function App() {
 
                 <option value="All">
                   All
+                </option>
+
+                <option value="Saved">
+                  Saved
                 </option>
 
                 <option value="Applied">
@@ -713,31 +804,76 @@ function App() {
                   </h3>
 
                   <p>
+
                     <strong>
                       Company:
                     </strong>{" "}
+
                     {job.company}
+
                   </p>
 
+
                   <p>
+
                     <strong>
                       Location:
                     </strong>{" "}
+
                     {job.location}
+
                   </p>
 
+
                   <p>
+
                     <strong>
                       Status:
                     </strong>{" "}
-                    {job.status}
+
+                    <select
+                      value={job.status}
+                      onChange={(event) =>
+                        handleUpdateStatus(
+                          job.id,
+                          event.target.value
+                        )
+                      }
+                    >
+
+                      <option value="Saved">
+                        Saved
+                      </option>
+
+                      <option value="Applied">
+                        Applied
+                      </option>
+
+                      <option value="Interview">
+                        Interview
+                      </option>
+
+                      <option value="Selected">
+                        Selected
+                      </option>
+
+                      <option value="Rejected">
+                        Rejected
+                      </option>
+
+                    </select>
+
                   </p>
 
+
                   <p>
+
                     <strong>
                       Applied Date:
                     </strong>{" "}
+
                     {job.applied_date}
+
                   </p>
 
 
@@ -838,35 +974,50 @@ function App() {
                   {job.title}
                 </h3>
 
+
                 <p>
+
                   <strong>
                     Company:
                   </strong>{" "}
+
                   {job.company?.display_name ||
                     "Unknown Company"}
+
                 </p>
 
+
                 <p>
+
                   <strong>
                     Location:
                   </strong>{" "}
+
                   {job.location?.display_name ||
                     "Unknown Location"}
+
                 </p>
 
+
                 <p>
+
                   <strong>
                     Category:
                   </strong>{" "}
+
                   {job.category?.label ||
                     "Not specified"}
+
                 </p>
 
+
                 <p>
+
                   {job.description
                     ? job.description.substring(0, 180) +
                       "..."
                     : "No description available."}
+
                 </p>
 
 
