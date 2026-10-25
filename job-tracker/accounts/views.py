@@ -1,10 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate, login
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+
 import logging
+
+from django.contrib.auth import authenticate, login
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import RegisterSerializer
 
@@ -19,15 +22,10 @@ class RegisterView(APIView):
     permission_classes = []
 
     def post(self, request):
-
         try:
-
-            serializer = RegisterSerializer(
-                data=request.data
-            )
+            serializer = RegisterSerializer(data=request.data)
 
             if serializer.is_valid():
-
                 serializer.save()
 
                 return Response(
@@ -40,18 +38,11 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        except Exception as error:
-
-            logger.exception(
-                "Registration error: %s",
-                error
-            )
+        except Exception:
+            logger.exception("Registration error")
 
             return Response(
-                {
-                    "message": "Registration failed",
-                    "error": str(error)
-                },
+                {"message": "Registration failed due to a server error"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -63,18 +54,29 @@ class LoginView(APIView):
     permission_classes = []
 
     def post(self, request):
+        try:
+            username = request.data.get("username")
+            password = request.data.get("password")
 
-        username = request.data.get("username")
-        password = request.data.get("password")
+            if not username or not password:
+                return Response(
+                    {"message": "Username and password are required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        user = authenticate(
-            username=username,
-            password=password
-        )
+            user = authenticate(
+                request=request._request,
+                username=username,
+                password=password
+            )
 
-        if user is not None:
+            if user is None:
+                return Response(
+                    {"message": "Invalid username or password"},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
 
-            login(request, user)
+            login(request._request, user)
 
             return Response(
                 {
@@ -84,7 +86,10 @@ class LoginView(APIView):
                 status=status.HTTP_200_OK
             )
 
-        return Response(
-            {"message": "Invalid username or password"},
-            status=status.HTTP_401_UNAUTHORIZED
-        )
+        except Exception:
+            logger.exception("Login error")
+
+            return Response(
+                {"message": "Login failed due to a server error"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
